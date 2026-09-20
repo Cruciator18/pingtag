@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Check your email · PingTag{% endblock %}
+{% block content %}
+<h1>Check your email</h1>
+<p>We sent a sign-in link to <strong>{{ email }}</strong>. It works once and expires in 15 minutes.</p>
+<p class="muted">Nothing arrived? Check spam, or <a href="/login">try again</a>.</p>
+{% endblock %}

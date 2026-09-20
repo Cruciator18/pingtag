@@ -13,7 +13,8 @@ pytestmark = pytest.mark.integration
 
 ROOT = Path(__file__).resolve().parents[2]
 TEST_DB_URL = os.getenv(
-    "TEST_DATABASE_URL", "postgresql+asyncpg://pingtag:pingtag@127.0.0.1:5432/pingtag_test"
+    "TEST_DATABASE_URL",
+    "postgresql+asyncpg://pingtag:pingtag@127.0.0.1:5432/pingtag_migrations_test",
 )
 EXPECTED_TABLES = {
     "users",

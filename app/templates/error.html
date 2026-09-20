@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Something went wrong · PingTag{% endblock %}
+{% block content %}
+<h1>Hmm.</h1>
+<p class="error" role="alert">{{ message }}</p>
+<p><a href="/login">Back to sign in</a></p>
+{% endblock %}
