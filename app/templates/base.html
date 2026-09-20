@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}PingTag{% endblock %}</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#fff; --fg:#111; --muted:#666; --accent:#2557d6; --on-accent:#fff; --border:#c8c8c8; --error:#c62828; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#121212; --fg:#eee; --muted:#aaa; --accent:#7aa2ff; --on-accent:#111; --border:#3a3a3a; --error:#ff8a80; }
+    }
+    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { max-width:28rem; margin:0 auto; padding:2rem 1rem; }
+    input, button { width:100%; box-sizing:border-box; min-height:44px; font:inherit; padding:.5rem .75rem; border-radius:8px; }
+    input { border:1px solid var(--border); background:transparent; color:inherit; }
+    button { border:0; background:var(--accent); color:var(--on-accent); margin-top:.75rem; cursor:pointer; }
+    button.secondary { background:transparent; color:var(--fg); border:1px solid var(--border); }
+    .error { color:var(--error); }
+    .muted { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>

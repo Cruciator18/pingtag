@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · PingTag{% endblock %}
+{% block content %}
+<h1>Your tags</h1>
+<p class="muted">Signed in as {{ user.email }}</p>
+<p>Tag management arrives in the next step.</p>
+<form method="post" action="/auth/logout">
+  <button class="secondary" type="submit">Sign out</button>
+</form>
+{% endblock %}

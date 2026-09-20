@@ -22,9 +22,26 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://pingtag:pingtag@127.0.0.1:5432/pingtag"
     redis_url: str = "redis://127.0.0.1:6379/0"
 
+    # Email (SMTP). Defaults point at Mailpit from docker-compose.
+    smtp_host: str = "127.0.0.1"
+    smtp_port: int = 1025
+    smtp_username: str | None = None
+    smtp_password: SecretStr | None = None
+    smtp_starttls: bool = False
+    email_from: str = "PingTag <no-reply@localhost>"
+
     # No defaults on purpose: the app must refuse to start without them.
     secret_key: SecretStr
     ip_hash_salt: SecretStr
+
+    @property
+    def session_cookie_secure(self) -> bool:
+        return self.env != "local"
+
+    @property
+    def session_cookie_name(self) -> str:
+        # The __Host- prefix requires Secure, so it can only be used outside local http.
+        return "__Host-pt_session" if self.session_cookie_secure else "pt_session"
 
     @model_validator(mode="after")
     def _harden_production(self) -> Self:

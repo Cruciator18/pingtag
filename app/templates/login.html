@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Sign in · PingTag{% endblock %}
+{% block content %}
+<h1>Sign in to PingTag</h1>
+<p class="muted">No password. We'll email you a one-time link.</p>
+{% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+<form method="post" action="/auth/magic-link">
+  <label for="email">Email address</label>
+  <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required autofocus value="{{ email }}">
+  <button type="submit">Email me a sign-in link</button>
+</form>
+{% endblock %}

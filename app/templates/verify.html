@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Confirm sign-in · PingTag{% endblock %}
+{% block content %}
+<h1>Confirm sign-in</h1>
+<p class="muted">Tap the button to finish signing in on this device.</p>
+<form method="post" action="/auth/verify">
+  <input type="hidden" name="token" value="{{ token }}">
+  <button type="submit">Sign in</button>
+</form>
+{% endblock %}
