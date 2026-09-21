@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse, RedirectResponse, Response
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from app.api import auth, health, pages
+from app.api import auth, health, pages, tags
 from app.api.deps import NotAuthenticatedError
 from app.core.config import Settings, get_settings
 from app.core.logging import configure_logging
@@ -49,6 +49,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(health.router)
     app.include_router(auth.router)
     app.include_router(pages.router)
+    app.include_router(tags.router)
 
     @app.exception_handler(NotAuthenticatedError)
     async def _not_authenticated(request: Request, exc: Exception) -> Response:

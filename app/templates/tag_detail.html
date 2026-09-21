@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ tag.label }} &middot; PingTag{% endblock %}
+{% block content %}
+{% include "_nav.html" %}
+<h1>{{ tag.label }}</h1>
+<p><span class="badge">{{ tag.kind.value }}</span> <span class="badge">{{ tag.status.value }}</span></p>
+{% if tag.public_note %}<p class="muted">Public note: {{ tag.public_note }}</p>{% endif %}
+
+{% if tag.status.value == "revoked" %}
+<p class="error">This tag is revoked. Its QR code no longer works.</p>
+{% else %}
+<img class="qr" src="/tags/{{ tag.id }}/qr.svg" alt="QR code for {{ tag.label }}">
+<p class="muted">Scanning opens: <code>{{ scan_url }}</code></p>
+<a class="button" href="/tags/{{ tag.id }}/print">Print sheet</a>
+<a class="button secondary" href="/tags/{{ tag.id }}/qr.svg?download=true">Download SVG</a>
+<a class="button secondary" href="/tags/{{ tag.id }}/qr.png?download=true">Download PNG</a>
+<a class="button secondary" href="/tags/{{ tag.id }}/edit">Edit details</a>
+
+{% if tag.status.value == "active" %}
+<form method="post" action="/tags/{{ tag.id }}/pause">
+  <button class="secondary" type="submit">Pause tag</button>
+</form>
+<p class="muted">While paused, scans are ignored.</p>
+{% else %}
+<form method="post" action="/tags/{{ tag.id }}/resume">
+  <button type="submit">Resume tag</button>
+</form>
+{% endif %}
+
+<details>
+  <summary>Replace QR code&hellip;</summary>
+  <p>This creates a new QR code and <strong>immediately disables the old one</strong>. Use it if a sticker was copied or tampered with. You will need to print the new one.</p>
+  <form method="post" action="/tags/{{ tag.id }}/rotate">
+    <button class="danger" type="submit">Yes, replace it</button>
+  </form>
+</details>
+<details>
+  <summary>Revoke tag&hellip;</summary>
+  <p>Permanently disables this tag. This cannot be undone.</p>
+  <form method="post" action="/tags/{{ tag.id }}/revoke">
+    <button class="danger" type="submit">Yes, revoke it</button>
+  </form>
+</details>
+{% endif %}
+<p><a href="/dashboard">Back to your tags</a></p>
+{% endblock %}

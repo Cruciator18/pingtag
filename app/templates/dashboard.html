@@ -1,10 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Dashboard · PingTag{% endblock %}
+{% block title %}Your tags &middot; PingTag{% endblock %}
 {% block content %}
+{% include "_nav.html" %}
 <h1>Your tags</h1>
 <p class="muted">Signed in as {{ user.email }}</p>
-<p>Tag management arrives in the next step.</p>
-<form method="post" action="/auth/logout">
-  <button class="secondary" type="submit">Sign out</button>
-</form>
+{% for tag in tags %}
+<a class="card" href="/tags/{{ tag.id }}">
+  <strong>{{ tag.label }}</strong><br>
+  <span class="badge">{{ tag.kind.value }}</span>
+  {% if tag.status.value != "active" %}<span class="badge">{{ tag.status.value }}</span>{% endif %}
+</a>
+{% else %}
+<p>You have no tags yet. Create one, print its QR code and stick it on something.</p>
+{% endfor %}
+<a class="button" href="/tags/new">New tag</a>
 {% endblock %}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Print &middot; {{ tag.label }}</title>
+  <style>
+    @page { margin: 12mm; }
+    body { margin: 0; padding: 16px; background: #fff; color: #000; font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .tip { max-width: 40rem; margin: 0 auto 1rem; }
+    .sheet { display: flex; flex-wrap: wrap; gap: 8mm; align-items: flex-start; justify-content: center; }
+    .cell { border: 1px dashed #888; padding: 2mm; text-align: center; break-inside: avoid; }
+    .cell img { display: block; }
+    .cell small { display: block; max-width: 100%; word-break: break-word; }
+    .s3 { width: 3cm; height: 3cm; }
+    .s4 { width: 4cm; height: 4cm; }
+    .s6 { width: 6cm; height: 6cm; }
+    @media print { .tip { display: none; } body { padding: 0; } }
+  </style>
+</head>
+<body>
+  <div class="tip">
+    <p><a href="/tags/{{ tag.id }}">&larr; Back</a></p>
+    <p><strong>Print at 100% scale</strong> (Ctrl+P, then choose "Actual size" and turn off "Fit to page"). Keep the white border around each code, cut along the dashed lines, and protect the sticker from the weather with laminate or clear tape.</p>
+  </div>
+  <div class="sheet">
+    <div class="cell">
+      <img class="s3" src="/tags/{{ tag.id }}/qr.svg" alt="QR code for {{ tag.label }}">
+      <small>{{ tag.label }}</small>
+    </div>
+    <div class="cell">
+      <img class="s4" src="/tags/{{ tag.id }}/qr.svg" alt="QR code for {{ tag.label }}">
+      <small>{{ tag.label }}</small>
+    </div>
+    <div class="cell">
+      <img class="s6" src="/tags/{{ tag.id }}/qr.svg" alt="QR code for {{ tag.label }}">
+      <small>{{ tag.label }}</small>
+    </div>
+  </div>
+</body>
+</html>
