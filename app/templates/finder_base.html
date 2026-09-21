@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}PingTag{% endblock %}</title>
+  {% block head %}{% endblock %}
+  <style>
+    :root { color-scheme: light dark; --bg:#fff; --fg:#111; --muted:#5f6368; --accent:#2557d6; --on-accent:#fff; --border:#c8c8c8; --error:#c62828; --card:#f5f6f8; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#121212; --fg:#eee; --muted:#a0a4a8; --accent:#7aa2ff; --on-accent:#111; --border:#3a3a3a; --error:#ff8a80; --card:#1c1c1e; }
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width:32rem; margin:0 auto; padding:1.25rem 1rem 3rem; }
+    h1 { font-size:1.5rem; margin:.5rem 0 1rem; }
+    fieldset { border:0; padding:0; margin:1rem 0; }
+    legend { font-weight:600; margin-bottom:.5rem; }
+    .choice { display:flex; align-items:center; gap:.75rem; min-height:52px; padding:.5rem .75rem; margin:.5rem 0; border:1px solid var(--border); border-radius:12px; background:var(--card); }
+    .choice input { width:22px; height:22px; flex:none; }
+    label.field { display:block; font-weight:600; margin-top:1rem; }
+    textarea { width:100%; font:inherit; padding:.6rem .75rem; border:1px solid var(--border); border-radius:12px; background:transparent; color:inherit; }
+    button { width:100%; min-height:52px; margin-top:1rem; font:inherit; font-weight:600; border:0; border-radius:12px; background:var(--accent); color:var(--on-accent); cursor:pointer; }
+    button[disabled] { opacity:.6; }
+    .note { padding:.75rem 1rem; border-left:4px solid var(--accent); background:var(--card); border-radius:6px; }
+    .error { color:var(--error); font-weight:600; }
+    .muted { color:var(--muted); font-size:.95rem; }
+  </style>
+</head>
+<body>
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>

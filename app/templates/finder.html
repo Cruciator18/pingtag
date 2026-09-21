@@ -1,0 +1,32 @@
+{% extends "finder_base.html" %}
+{% block title %}Contact the owner &middot; PingTag{% endblock %}
+{% block head %}
+{% if turnstile_site_key %}<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>{% endif %}
+<script src="/static/finder.js" defer></script>
+{% endblock %}
+{% block content %}
+<h1>Contact the owner</h1>
+<p>You scanned the tag for <strong>{{ tag.label }}</strong>.</p>
+{% if tag.public_note %}<p class="note">{{ tag.public_note }}</p>{% endif %}
+{% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+<form id="scan-form" method="post" action="/t/{{ tag.public_id }}">
+  <fieldset>
+    <legend>What is happening?</legend>
+    {% for r in reasons %}
+    <label class="choice"><input type="radio" name="reason" value="{{ r.key }}" required {% if form.reason == r.key %}checked{% endif %}> {{ r.label }}</label>
+    {% endfor %}
+  </fieldset>
+
+  <label class="field" for="message">Message (optional)</label>
+  <textarea id="message" name="message" rows="3" maxlength="280">{{ form.message }}</textarea>
+
+  <label class="choice"><input type="checkbox" id="share-location"> Share my approximate location (about 100 m)</label>
+  <input type="hidden" id="lat" name="lat" value="{{ form.lat }}">
+  <input type="hidden" id="lng" name="lng" value="{{ form.lng }}">
+  <p id="loc-status" class="muted" aria-live="polite"></p>
+
+  {% if turnstile_site_key %}<div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}"></div>{% endif %}
+  <button type="submit">Send to the owner</button>
+</form>
+<p class="muted">The owner will not see your name or contact details. In an emergency, call the emergency services first.</p>
+{% endblock %}

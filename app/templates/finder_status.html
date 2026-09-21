@@ -1,0 +1,16 @@
+{% extends "finder_base.html" %}
+{% block title %}Message status &middot; PingTag{% endblock %}
+{% block head %}{% if scan.status.value == "queued" %}<meta http-equiv="refresh" content="15">{% endif %}{% endblock %}
+{% block content %}
+{% if scan.status.value == "notified" %}
+<h1>Owner notified</h1>
+<p>The owner has been notified. Thank you for helping.</p>
+{% elif scan.status.value == "queued" %}
+<h1>Message received</h1>
+<p>Your message is being sent to the owner. This page updates automatically.</p>
+{% else %}
+<h1>Message received</h1>
+<p>Your message was received. We could not confirm yet that the owner has seen it.</p>
+{% endif %}
+<p class="muted">This link is private to you and stops working after 7 days.</p>
+{% endblock %}
