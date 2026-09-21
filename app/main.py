@@ -1,20 +1,25 @@
 import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, RedirectResponse, Response
+from fastapi.staticfiles import StaticFiles
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from app.api import auth, health, pages, tags
+from app.api import auth, finder, health, pages, tags
 from app.api.deps import NotAuthenticatedError
 from app.core.config import Settings, get_settings
 from app.core.logging import configure_logging
 from app.core.middleware import RequestContextMiddleware
+from app.services.captcha import build_captcha_verifier
 from app.services.email import build_email_sender
 
 logger = logging.getLogger(__name__)
+
+STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -23,6 +28,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        # Raises in production when Turnstile keys are missing, so a misconfigured
+        # deployment refuses to start instead of running without a captcha.
+        app.state.captcha = build_captcha_verifier(settings)
         engine = create_async_engine(settings.database_url, pool_pre_ping=True)
         app.state.engine = engine
         app.state.session_factory = async_sessionmaker(engine, expire_on_commit=False)
@@ -46,10 +54,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.settings = settings
     app.state.email_sender = build_email_sender(settings)
     app.add_middleware(RequestContextMiddleware)
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
     app.include_router(health.router)
     app.include_router(auth.router)
     app.include_router(pages.router)
     app.include_router(tags.router)
+    app.include_router(finder.router)
 
     @app.exception_handler(NotAuthenticatedError)
     async def _not_authenticated(request: Request, exc: Exception) -> Response:

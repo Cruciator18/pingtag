@@ -30,6 +30,10 @@ class Settings(BaseSettings):
     smtp_starttls: bool = False
     email_from: str = "PingTag <no-reply@localhost>"
 
+    # Cloudflare Turnstile. Unset = captcha disabled (allowed everywhere except production).
+    turnstile_site_key: str | None = None
+    turnstile_secret_key: SecretStr | None = None
+
     # No defaults on purpose: the app must refuse to start without them.
     secret_key: SecretStr
     ip_hash_salt: SecretStr

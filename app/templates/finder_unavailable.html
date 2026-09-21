@@ -1,0 +1,6 @@
+{% extends "finder_base.html" %}
+{% block title %}Not available &middot; PingTag{% endblock %}
+{% block content %}
+<h1>{{ heading | default("This tag isn't available", true) }}</h1>
+<p>{{ message | default("The QR code you scanned is not active. If you found something that belongs to someone, please contact the local authorities.", true) }}</p>
+{% endblock %}
